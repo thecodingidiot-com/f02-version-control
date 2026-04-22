@@ -29,15 +29,15 @@ banner() {
 
 pass() {
     local label="$1"
-    echo -e "${C_GREEN}✓ PASS${C_RESET}  $label"
+    echo -e "${C_GREEN}PASS${C_RESET}  $label"
     PASS_COUNT=$((PASS_COUNT + 1))
 }
 
 fail() {
     local label="$1"
     local reason="$2"
-    echo -e "${C_RED}✗ FAIL${C_RESET}  $label"
-    echo "         $reason"
+    echo -e "${C_RED}FAIL${C_RESET}  $label"
+    echo "      $reason"
     FAIL_COUNT=$((FAIL_COUNT + 1))
 }
 
@@ -59,7 +59,11 @@ celebrate() {
 
 if ! git rev-parse --git-dir >/dev/null 2>&1; then
     echo "Error: not inside a git repository."
-    echo "Run this tester from within your f02-version-control directory."
+    echo "Copy this script into your f02-practice directory and run it from there:"
+    echo ""
+    echo "  cp test.sh ~/f02-practice/"
+    echo "  cd ~/f02-practice"
+    echo "  bash test.sh"
     exit 1
 fi
 
@@ -71,16 +75,16 @@ PASS_COUNT=0
 FAIL_COUNT=0
 
 check_commits() {
-    local count
     if ! git rev-parse main >/dev/null 2>&1; then
         fail "At least five commits on main" "Branch 'main' not found"
         return
     fi
+    local count
     count=$(git log main --oneline 2>/dev/null | wc -l | tr -d ' ')
     if [ "$count" -ge 5 ]; then
         pass "At least five commits on main ($count found)"
     else
-        fail "At least five commits on main" "$count found — need at least 5"
+        fail "At least five commits on main" "$count found — make at least 5 commits on the main branch"
     fi
 }
 
@@ -122,19 +126,26 @@ if [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
     cat <<'HELP'
 Usage: bash test.sh [OPTION]
 
-Run this tester from inside your f02-version-control git repository.
-
-  (no arguments)    Run all checks.
+  (no arguments)    Run all checks against the current repository.
   --help, -h        Show this message.
 
-Checks:
-  1. At least five commits on the main branch.
-  2. A branch was created and merged back (merge commit present).
-  3. No unresolved conflict markers in tracked files.
+── Setup ────────────────────────────────────────────────────────────────────
+
+Copy this script into your f02-practice repository and run it from there:
+
+  cp test.sh ~/f02-practice/
+  cd ~/f02-practice
+  bash test.sh
+
+── What the tester checks ───────────────────────────────────────────────────
+
+  1. At least five commits exist on the main branch.
+  2. A branch was created and merged back — a merge commit is present.
+  3. No unresolved conflict markers (<<<<<<<, >>>>>>>) in any tracked file.
   4. A remote named 'origin' is configured.
 
-The SM64 clone step is self-certified — the tester cannot verify
-what you saw when you read someone else's repository history.
+The SM64 clone step is self-certified. The tester cannot verify what
+you saw when you read someone else's repository history.
 HELP
     exit 0
 fi
