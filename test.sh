@@ -45,10 +45,10 @@ celebrate() {
     echo ""
     echo "════════════════════════════════════════════"
     echo ""
-    echo "sm64 had thousands of contributors"
-    echo "and no original source."
+    echo "Perfect Dark. One contributor."
+    echo "6,779 commits. No original source."
     echo ""
-    echo "You now have the tool they used."
+    echo "You now have the tool he used."
     echo ""
     echo "════════════════════════════════════════════"
 }
@@ -101,7 +101,7 @@ check_merge_commit() {
 check_no_conflict_markers() {
     local conflicted
     conflicted=$(git ls-files | xargs grep -lE '^<<<<<<< |^>>>>>>> ' 2>/dev/null || true)
-    if [ -z "$conflicted" ]; then
+    if [[ -z "$conflicted" ]]; then
         pass "No unresolved conflict markers in tracked files"
     else
         fail "No unresolved conflict markers" "Markers found in: $conflicted"
@@ -122,7 +122,7 @@ check_origin_remote() {
 # Main
 # ─────────────────────────────────────────────────────────────────────────────
 
-if [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
+if [[ "$1" = "--help" || "$1" = "-h" ]]; then
     cat <<'HELP'
 Usage: bash test.sh [OPTION]
 
@@ -144,13 +144,13 @@ Copy this script into your f02-practice repository and run it from there:
   3. No unresolved conflict markers (<<<<<<<, >>>>>>>) in any tracked file.
   4. A remote named 'origin' is configured.
 
-The SM64 clone step is self-certified. The tester cannot verify what
-you saw when you read someone else's repository history.
+The perfect-dark clone step is self-certified. The tester cannot verify
+what you saw when you read someone else's repository history.
 HELP
     exit 0
 fi
 
-if [ -n "$1" ]; then
+if [[ -n "$1" ]]; then
     echo "Unknown option: $1"
     echo "Run bash test.sh --help for usage."
     exit 1
