@@ -7,7 +7,7 @@ C_GREEN='\033[0;32m'
 C_RED='\033[0;31m'
 C_RESET='\033[0m'
 
-if [ ! -t 1 ]; then
+if [[ ! -t 1 ]]; then
     C_GREEN=''
     C_RED=''
     C_RESET=''
@@ -81,7 +81,7 @@ check_commits() {
     fi
     local count
     count=$(git log main --oneline 2>/dev/null | wc -l | tr -d ' ')
-    if [ "$count" -ge 5 ]; then
+    if [[ "$count" -ge 5 ]]; then
         pass "At least five commits on main ($count found)"
     else
         fail "At least five commits on main" "$count found — make at least 5 commits on the main branch"
@@ -91,7 +91,7 @@ check_commits() {
 check_merge_commit() {
     local count
     count=$(git log --merges --oneline 2>/dev/null | wc -l | tr -d ' ')
-    if [ "$count" -ge 1 ]; then
+    if [[ "$count" -ge 1 ]]; then
         pass "Merge commit present ($count found)"
     else
         fail "Merge commit present" "No merge commits — create a branch, commit on it, and merge back into main"
