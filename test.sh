@@ -100,7 +100,7 @@ check_merge_commit() {
 
 check_no_conflict_markers() {
     local conflicted
-    conflicted=$(git ls-files | xargs grep -lE '^<<<<<<< |^>>>>>>> ' 2>/dev/null || true)
+    conflicted=$(git ls-files -z | xargs -0 grep -lE '^<<<<<<< |^>>>>>>> ' 2>/dev/null || true)
     if [[ -z "$conflicted" ]]; then
         pass "No unresolved conflict markers in tracked files"
     else
@@ -169,7 +169,7 @@ hr
 TOTAL=$((PASS_COUNT + FAIL_COUNT))
 echo "  $PASS_COUNT / $TOTAL checks passed"
 
-if [ "$FAIL_COUNT" -eq 0 ]; then
+if [[ "$FAIL_COUNT" -eq 0 ]]; then
     celebrate
     exit 0
 else
