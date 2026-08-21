@@ -37,4 +37,4 @@ what you saw when you read someone else's repository history.
 
 ## License
 
-[GPLv2](LICENSE) — the tester code is free to read, modify, and redistribute under the same terms.
+[MIT License](LICENSE) — the tester code is free to read, modify, and redistribute.
